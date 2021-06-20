@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Authors>Octavio Santana Quintana</Authors>
+    <Company />
+    <Description>Obtiene datos de una factura de la luz a partir del pdf de la factura.</Description>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>C:\Users\Octavio\Documents\GitHub\BillReader\BillReader\BillReader.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="itext7" Version="7.1.15" />
+  </ItemGroup>
+
+</Project>
