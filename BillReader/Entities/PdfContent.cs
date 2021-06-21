@@ -6,6 +6,7 @@ namespace BillReader
     public class PdfContent
     {
 
+        public string FileName { get; set; }
         public MarketerName Comercializadora { get; set; }
         public DateTime FechaEmision { get; set; }
         public DateTime InicioPeriodoFacturacion { get; set; }

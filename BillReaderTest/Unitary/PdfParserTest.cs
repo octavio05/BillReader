@@ -106,6 +106,7 @@ namespace BillReaderTest.Unitary
 
             // Arrange
             pdfMock.SetupGet(x => x.PagedText).Returns(pageContent);
+            pdfMock.SetupGet(x => x.FileName).Returns("file.pdf");
             var pdfParser = new PdfParser(pdfMock.Object);
 
             // Act

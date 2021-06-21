@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BillReader.Interfaces
+﻿namespace BillReader.Interfaces
 {
     public interface IPdf
     {
@@ -11,6 +7,11 @@ namespace BillReader.Interfaces
         ///     Texto del fichero pdf donde cada índice del array corresponde a una página del fichero.
         /// </summary>
         string[] PagedText { get; }
+
+        /// <summary>
+        ///     Nombre del fichero pdf.
+        /// </summary>
+        string FileName { get; }
 
         void Read(string path);
 

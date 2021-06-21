@@ -75,17 +75,24 @@ namespace BillReader
         public PdfContent Parse()
         {
 
+            PdfContent content;
+
             switch (_marketer)
             {
 
                 case MarketerName.Endesa:
-                    return EndesaParser.Parse(_unifiedText);
+                    content = EndesaParser.Parse(_unifiedText);
+                    break;
 
                 case MarketerName.Undefined:
                 default:
                     throw new InvalidOperationException("Marketer not defined.");
             
             }
+
+            content.FileName = _pdf.FileName;
+
+            return content;
 
         }
 

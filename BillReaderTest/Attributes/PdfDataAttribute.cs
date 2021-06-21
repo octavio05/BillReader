@@ -53,6 +53,7 @@ namespace BillReaderTest.Attributes
                 return new PdfContent
                 {
 
+                    FileName = "file.pdf",
                     Comercializadora = MarketerName.Endesa,
                     FechaEmision = new DateTime(2021, 6, 8),
                     InicioPeriodoFacturacion = new DateTime(2021, 5, 11),
@@ -78,6 +79,7 @@ namespace BillReaderTest.Attributes
                 return new PdfContent
                 {
 
+                    FileName = "file.pdf",
                     Comercializadora = MarketerName.Endesa,
                     FechaEmision = new DateTime(2021, 5, 13),
                     InicioPeriodoFacturacion = new DateTime(2021, 4, 13),

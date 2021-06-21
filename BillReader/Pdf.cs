@@ -14,6 +14,9 @@ namespace BillReader
         ///     Texto del fichero pdf donde cada índice del array corresponde a una página del fichero.
         /// </summary>
         public string[] PagedText { get; private set; }
+        /// <summary>
+        ///     Nombre del fichero pdf.
+        /// </summary>
         public string FileName { get; private set; }
 
         /// <summary>
