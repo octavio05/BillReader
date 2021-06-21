@@ -1,11 +1,12 @@
 ﻿using System;
+using static BillReader.PdfParser;
 
 namespace BillReader
 {
     public class PdfContent
     {
 
-        public string Comercializadora { get; set; }
+        public MarketerName Comercializadora { get; set; }
         public DateTime FechaEmision { get; set; }
         public DateTime InicioPeriodoFacturacion { get; set; }
         public DateTime FinPeriodoFacturacion { get; set; }

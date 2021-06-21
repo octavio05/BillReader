@@ -2,6 +2,7 @@
 using System;
 using System.Globalization;
 using System.Runtime.CompilerServices;
+using static BillReader.PdfParser;
 
 [assembly: InternalsVisibleTo("BillReaderTest")]
 namespace BillReader
@@ -32,7 +33,7 @@ namespace BillReader
                 return new PdfContent
                 {
 
-                    Comercializadora = "Endesa",
+                    Comercializadora = MarketerName.Endesa,
                     FechaEmision = DateTime.Parse(billText.GetStringBetween("Fecha emisión factura: ", "Periodo"), new CultureInfo("es-ES")),
                     InicioPeriodoFacturacion = DateTime.Parse(billText.GetStringBetween("Periodo de facturación: del ", " a"), new CultureInfo("es-ES")),
                     FinPeriodoFacturacion = GetFinPeriodoFacturacion(billText),

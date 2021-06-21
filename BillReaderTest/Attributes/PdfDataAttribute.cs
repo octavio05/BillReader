@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using Xunit.Sdk;
+using static BillReader.PdfParser;
 
 namespace BillReaderTest.Attributes
 {
@@ -52,7 +53,7 @@ namespace BillReaderTest.Attributes
                 return new PdfContent
                 {
 
-                    Comercializadora = "Endesa",
+                    Comercializadora = MarketerName.Endesa,
                     FechaEmision = new DateTime(2021, 6, 8),
                     InicioPeriodoFacturacion = new DateTime(2021, 5, 11),
                     FinPeriodoFacturacion = new DateTime(2021, 5, 31),
@@ -77,7 +78,7 @@ namespace BillReaderTest.Attributes
                 return new PdfContent
                 {
 
-                    Comercializadora = "Endesa",
+                    Comercializadora = MarketerName.Endesa,
                     FechaEmision = new DateTime(2021, 5, 13),
                     InicioPeriodoFacturacion = new DateTime(2021, 4, 13),
                     FinPeriodoFacturacion = new DateTime(2021, 5, 11),

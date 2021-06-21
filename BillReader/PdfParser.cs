@@ -10,7 +10,7 @@ namespace BillReader
     public class PdfParser
     {
 
-        private enum MarketerName { Undefined, Endesa };
+        public enum MarketerName { Undefined, Endesa };
 
         private readonly IPdf _pdf;
         private readonly MarketerName? _marketer;
