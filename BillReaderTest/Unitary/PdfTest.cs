@@ -33,10 +33,11 @@ namespace BillReaderTest.Unitary
             var path = @"../../../Files/testPdf.pdf";
 
             // Act
-            _pdf.Read(path);
+            var result = _pdf.Read(path);
 
             // Assert
-            _pdf.PagedText.Should().NotBeNull();
+            result.FileName.Should().NotBeNull();
+            result.Pages.Should().NotBeNull();
 
         }
 

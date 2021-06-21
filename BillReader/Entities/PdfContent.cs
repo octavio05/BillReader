@@ -3,6 +3,10 @@ using static BillReader.PdfParser;
 
 namespace BillReader
 {
+
+    /// <summary>
+    ///     Contenido del pdf.
+    /// </summary>
     public class PdfContent
     {
 

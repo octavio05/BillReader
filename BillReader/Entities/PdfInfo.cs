@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using BillReader.Interfaces;
+using System.Collections.Generic;
 
 namespace BillReader.Entities
 {
     /// <summary>
     ///     Contiene información del documento pdf.
     /// </summary>
-    public class PdfInfo
+    public class PdfInfo : IPdfInfo
     {
 
         /// <summary>

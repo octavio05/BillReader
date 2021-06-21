@@ -23,7 +23,7 @@ namespace BillReader
         /// <param name="pages">Páginas del pdf.</param>
         /// <returns>string con el texto unificado y sin saltos de línea.</returns>
         /// <exception cref="ArgumentNullException">pages can't be null.</exception>
-        private string UnifyText(string[] pages)
+        private string UnifyText(IEnumerable<string> pages)
         {
 
             if (pages == null)
@@ -31,8 +31,8 @@ namespace BillReader
 
             string unifiedText = string.Empty;
 
-            for (int i = 0, len = pages.Length; i < len; i++)
-                unifiedText += pages[i].Replace("\n", "");
+            foreach(var page in pages)
+                unifiedText += page.Replace("\n", "");
 
             return unifiedText;
         
@@ -56,24 +56,24 @@ namespace BillReader
         /// <summary>
         ///     Parsea una colección de fichero pdf y lo convierte en una colección PdfContent.
         /// </summary>
-        /// <param name="pdfs">Colección de Ipdf.</param>
+        /// <param name="pdfs">Objeto que implemente la interfaz IPdfInfo.</param>
         /// <returns>Colección de PdfContent.</returns>
         /// <exception cref="ArgumentNullException">pdfs can't be null.</exception>
-        public IEnumerable<PdfContent> Parse(IEnumerable<IPdf> pdfs)
+        public IEnumerable<PdfContent> Parse(IEnumerable<IPdfInfo> pdfInfo)
         {
 
-            if (pdfs == null)
+            if (pdfInfo == null)
                 throw new ArgumentNullException("pdfs", "can't be null.");
 
             ArrayList contentList = new ArrayList();
 
-            foreach (var pdf in pdfs)
+            foreach (var info in pdfInfo)
             {
 
                 try
                 {
 
-                    contentList.Add(Parse(pdf));
+                    contentList.Add(Parse(info));
 
                 }
                 catch (Exception)
@@ -83,7 +83,7 @@ namespace BillReader
                     {
 
                         Comercializadora = MarketerName.Undefined,
-                        FileName = pdf.FileName
+                        FileName = info.FileName
 
                     });
                 
@@ -98,18 +98,18 @@ namespace BillReader
         /// <summary>
         ///     Parsea un fichero pdf y lo convierte ne un objeto PdfContent.
         /// </summary>
-        /// <param name="pdf">Objeto que implemente la interfaz IPdf.</param>
+        /// <param name="pdfInfo">Objeto que implemente la interfaz IpdfInfo.</param>
         /// <returns>Objeto PdfContent.</returns>
         /// <exception cref="ArgumentNullException">pdf can't be null.</exception>
         /// <exception cref="InvalidOperationException">Comercializadora no definida.</exception>
         /// <exception cref="FormatException">Formato de factura no válido.</exception>
-        public PdfContent Parse(IPdf pdf)
+        public PdfContent Parse(IPdfInfo pdfInfo)
         {
 
-            if (pdf == null)
+            if (pdfInfo == null)
                 throw new ArgumentNullException("pdf", "can't be null.");
 
-            var unifiedText = UnifyText(pdf.PagedText);
+            var unifiedText = UnifyText(pdfInfo.Pages);
             PdfContent content;
 
             switch (GetMarketer(unifiedText))
@@ -131,7 +131,7 @@ namespace BillReader
 
             }
 
-            content.FileName = pdf.FileName;
+            content.FileName = pdfInfo.FileName;
 
             return content;
 
