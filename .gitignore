@@ -6,3 +6,4 @@ BillReaderTest/bin
 BillReaderTest/obj
 BillReaderTest/TestResults
 BillReader/BillReader.csproj.user
+BillReader/BillReader.xml
