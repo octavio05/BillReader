@@ -15,19 +15,49 @@ namespace BillReaderTest.Attributes
     {
 
         private readonly string _path;
+        private readonly bool _returnCollection;
 
-        public PdfDataAttribute(string path)
+        public PdfDataAttribute(string path, bool returnCollection)
         {
 
             _path = path;
+            _returnCollection = returnCollection;
         
         }
 
         public override IEnumerable<object[]> GetData(MethodInfo testMethod)
         {
 
-            foreach (var file in GetFilesPath())
-                yield return new object[] { new string[] { File.ReadAllText(file) }, GetExpectedResult(file) };
+            if (_returnCollection)
+            {
+
+                ArrayList listFiles = new ArrayList();
+                ArrayList listExpected = new ArrayList();
+
+                foreach (var file in GetFilesPath())
+                {
+
+                    listFiles.Add(new string[] { File.ReadAllText(file) });
+                    listExpected.Add(GetExpectedResult(file));
+
+                }
+
+                yield return new object[] 
+                {
+                    
+                    listFiles, 
+                    (PdfContent[])listExpected.ToArray(typeof(PdfContent)) 
+
+                };
+
+            }
+            else
+            {
+
+                foreach (var file in GetFilesPath())
+                    yield return new object[] { new string[] { File.ReadAllText(file) }, GetExpectedResult(file) };
+
+            }
 
         }
 
@@ -59,13 +89,13 @@ namespace BillReaderTest.Attributes
                     InicioPeriodoFacturacion = new DateTime(2021, 5, 11),
                     FinPeriodoFacturacion = new DateTime(2021, 5, 31),
                     FechaCargo = new DateTime(2021, 6, 15),
-                    PagoTotalPotencia = 9.04f,
-                    PagoTotalEnergia = 16.19f,
+                    CosteTotalPotencia = 9.04f,
+                    CosteTotalEnergia = 16.19f,
                     TotalDescuentos = -2.03f,
-                    PagoTotalOtros = 0.57f,
-                    PagoTotalImpuestos = 1.23f,
-                    PagoTotalServicios = 3.60f,
-                    PagoTotal = 28.60f,
+                    CosteTotalOtros = 0.57f,
+                    CosteTotalImpuestos = 1.23f,
+                    CosteTotalServicios = 3.60f,
+                    CosteTotal = 28.60f,
                     ConsumoP1 = 47,
                     ConsumoP2 = 62,
                     ConsumoP3 = 15
@@ -85,13 +115,13 @@ namespace BillReaderTest.Attributes
                     InicioPeriodoFacturacion = new DateTime(2021, 4, 13),
                     FinPeriodoFacturacion = new DateTime(2021, 5, 11),
                     FechaCargo = new DateTime(2021, 5, 20),
-                    PagoTotalPotencia = 12.65f,
-                    PagoTotalEnergia = 24.32f,
+                    CosteTotalPotencia = 12.65f,
+                    CosteTotalEnergia = 24.32f,
                     TotalDescuentos = -2.97f,
-                    PagoTotalOtros = 0.80f,
-                    PagoTotalImpuestos = 1.80f,
-                    PagoTotalServicios = 3.72f,
-                    PagoTotal = 40.32f,
+                    CosteTotalOtros = 0.80f,
+                    CosteTotalImpuestos = 1.80f,
+                    CosteTotalServicios = 3.72f,
+                    CosteTotal = 40.32f,
                     ConsumoP1 = 77,
                     ConsumoP2 = 83,
                     ConsumoP3 = 22

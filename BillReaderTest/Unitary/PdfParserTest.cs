@@ -4,7 +4,10 @@ using BillReaderTest.Attributes;
 using FluentAssertions;
 using Moq;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using Xunit;
+using static BillReader.PdfParser;
 
 namespace BillReaderTest.Unitary
 {
@@ -18,63 +21,68 @@ namespace BillReaderTest.Unitary
         {
 
             // Arrange
-            pdfMock.SetupGet(x => x.PagedText).Returns(new string[] { "Page 1", "Page 2" });
 
             // Act
-            var pdfParser = new PdfParser(pdfMock.Object);
+            var pdfParser = new PdfParser();
 
             // Assert
             pdfParser.Should().NotBeNull().And.BeOfType<PdfParser>();
-        
+
         }
 
         [Fact]
-        public void CreaInstancia_RecibePdfNulo_ArgumentNullException()
-        {
-
-            // Arrange
-
-            // Act
-            Action pdfParser = () => new PdfParser(null);
-
-            // Assert
-            pdfParser.Should().Throw<ArgumentNullException>();
-        
-        }
-
-        [Fact]
-        public void CreaInstancia_RecibePagedTextNulo_ArgumentNullException()
-        {
-
-            // Arrange
-            pdfMock.SetupGet(x => x.PagedText).Returns((string[])null);
-
-            // Act
-            Action result = () => new PdfParser(pdfMock.Object);
-
-            // Assert
-            result.Should().Throw<ArgumentNullException>();
-        
-        }
-
-        [Fact]
-        public void Parser_ComercializadoraNoDefinida_InvalidOperationException()
+        public void Parse_ParametroObjetoPdf_ComercializadoraNoDefinida_RetornaPdfContent_Correctamente()
         {
 
             // Arrange
             pdfMock.SetupGet(x => x.PagedText).Returns(new string[] { "Contenido de comercializadora no definida." });
-            var pdfParser = new PdfParser(pdfMock.Object);
+            pdfMock.SetupGet(x => x.FileName).Returns("notDefined.pdf");
+            var pdfParser = new PdfParser();
 
             // Act
-            Action result = () => pdfParser.Parse();
+            var result = pdfParser.Parse(pdfMock.Object);
 
             // Assert
-            result.Should().Throw<InvalidOperationException>();
-        
+            result.Should().BeOfType<PdfContent>();
+            result.Comercializadora.Should().Be(MarketerName.Undefined);
+            result.FileName.Should().Be("notDefined.pdf");
+
         }
 
         [Fact]
-        public void Parser_FormatoPdfNoValido_FormatException()
+        public void Parse_ParametroObjetoPdf_Nulo_ArgumentNullException()
+        {
+
+            // Arrange
+            var pdfParser = new PdfParser();
+            IPdf pdf = null;
+
+            // Act
+            Action result = () => pdfParser.Parse(pdf);
+
+            // Assert
+            result.Should().Throw<ArgumentNullException>();
+
+        }
+
+        [Fact]
+        public void Parse_ParametroObjetoPdf_PagedTextNulo_ArgumentNullException()
+        {
+
+            // Arrange
+            var pdfParser = new PdfParser();
+            pdfMock.SetupGet(x => x.PagedText).Returns((string[])null);
+
+            // Act
+            Action result = () => pdfParser.Parse(pdfMock.Object);
+
+            // Result
+            result.Should().Throw<ArgumentNullException>();
+
+        }
+
+        [Fact]
+        public void Parse_ParametroObjetoPdf_FormatoPdfNoValido_FormatException()
         {
 
             // Arrange
@@ -89,32 +97,230 @@ namespace BillReaderTest.Unitary
                 Referencia: 130008765511/0047
                 Fecha emisión factu: 08/06/2021";
             pdfMock.SetupGet(x => x.PagedText).Returns(new string[] { txt });
-            var pdfParser = new PdfParser(pdfMock.Object);
+            var pdfParser = new PdfParser();
 
             // Act
-            Action result = () => pdfParser.Parse();
+            Action result = () => pdfParser.Parse(pdfMock.Object);
 
             // Assert
             result.Should().Throw<FormatException>();
-        
+
         }
 
         [Theory]
-        [PdfData(@"../../../Files")]
-        public void Parser_RetornaPdfContent_Correctamente(string[] pageContent, PdfContent expected)
+        [PdfData(@"../../../Files", false)]
+        public void Parse_ParametroObjetoPdf_RetornaPdfContent_Correctamente(string[] pageContent, PdfContent expected)
         {
 
             // Arrange
             pdfMock.SetupGet(x => x.PagedText).Returns(pageContent);
             pdfMock.SetupGet(x => x.FileName).Returns("file.pdf");
-            var pdfParser = new PdfParser(pdfMock.Object);
+            var pdfParser = new PdfParser();
 
             // Act
-            var result = pdfParser.Parse();
+            var result = pdfParser.Parse(pdfMock.Object);
 
             // Assert
             result.Should().BeEquivalentTo(expected);
+
+        }
+
+        [Fact]
+        public void Parse_ParametroColeccionPdf_ComercializadoraNoDefinida_RetornaColeccionPdfContent_Correctamente()
+        {
+
+            // Arrange
+            Mock<IPdf>
+                pdfMock1 = new Mock<IPdf>(MockBehavior.Strict),
+                pdfMock2 = new Mock<IPdf>(MockBehavior.Strict),
+                pdfMock3 = new Mock<IPdf>(MockBehavior.Strict);
+
+            pdfMock1.SetupGet(x => x.PagedText).Returns(new string[] { "Contenido de comercializadora no definida." });
+            pdfMock1.SetupGet(x => x.FileName).Returns("notDefined1.pdf");
+            pdfMock2.SetupGet(x => x.PagedText).Returns(new string[] { "Contenido de comercializadora no definida." });
+            pdfMock2.SetupGet(x => x.FileName).Returns("notDefined2.pdf");
+            pdfMock3.SetupGet(x => x.PagedText).Returns(new string[] { "Contenido de comercializadora no definida." });
+            pdfMock3.SetupGet(x => x.FileName).Returns("notDefined3.pdf");
+
+            var expected = new PdfContent[]
+                {
+                    new PdfContent
+                    {
+                        Comercializadora = MarketerName.Undefined,
+                        FileName = "notDefined1.pdf"
+                    },
+                    new PdfContent
+                    {
+                        Comercializadora = MarketerName.Undefined,
+                        FileName = "notDefined2.pdf"
+                    },
+                    new PdfContent
+                    {
+                        Comercializadora = MarketerName.Undefined,
+                        FileName = "notDefined3.pdf"
+                    }
+                };
+
+            var pdfMockColl = new IPdf[] { pdfMock1.Object, pdfMock2.Object, pdfMock3.Object };
+
+            PdfParser pdfParser = new PdfParser();
+
+            // Act
+            var result = pdfParser.Parse(pdfMockColl);
+
+            // Result
+            result.Should().BeEquivalentTo(expected);
+
+        }
+
+        [Fact]
+        public void Parse_ParametroColeccionPdf_Nulo_ArgumentNullException()
+        {
+
+            // Arrange
+            var pdfParser = new PdfParser();
+            IEnumerable<IPdf> pdfs = null;
+
+            // Act
+            Action result = () => pdfParser.Parse(pdfs);
+
+            // Assert
+            result.Should().Throw<ArgumentNullException>();
         
+        }
+
+        [Fact]
+        public void Parse_ParametroColeccionPdf_PagedTextNulo_RetornaColeccionPdfContent_Correctamente()
+        {
+
+            // Arrange
+            Mock<IPdf>
+                pdfMock1 = new Mock<IPdf>(MockBehavior.Strict),
+                pdfMock2 = new Mock<IPdf>(MockBehavior.Strict),
+                pdfMock3 = new Mock<IPdf>(MockBehavior.Strict);
+
+            pdfMock1.SetupGet(x => x.PagedText).Returns((string[])null);
+            pdfMock1.SetupGet(x => x.FileName).Returns("notDefined1.pdf");
+            pdfMock2.SetupGet(x => x.PagedText).Returns((string[])null);
+            pdfMock2.SetupGet(x => x.FileName).Returns("notDefined2.pdf");
+            pdfMock3.SetupGet(x => x.PagedText).Returns((string[])null);
+            pdfMock3.SetupGet(x => x.FileName).Returns("notDefined3.pdf");
+
+            var expected = new PdfContent[]
+                {
+                    new PdfContent
+                    {
+                        Comercializadora = MarketerName.Undefined,
+                        FileName = "notDefined1.pdf"
+                    },
+                    new PdfContent
+                    {
+                        Comercializadora = MarketerName.Undefined,
+                        FileName = "notDefined2.pdf"
+                    },
+                    new PdfContent
+                    {
+                        Comercializadora = MarketerName.Undefined,
+                        FileName = "notDefined3.pdf"
+                    }
+                };
+
+            var pdfMockColl = new IPdf[] { pdfMock1.Object, pdfMock2.Object, pdfMock3.Object };
+
+            PdfParser pdfParser = new PdfParser();
+
+            // Act
+            var result = pdfParser.Parse(pdfMockColl);
+
+            // Assert
+            result.Should().BeEquivalentTo(expected);
+
+        }
+
+        [Fact]
+        public void Parse_ParametroColeccionPdf_FormatoPdfNoValido_RetornaColeccionPdfContent_Correctamente()
+        {
+
+            // Arrange
+            var txt = @"
+                Endesa Energía, S.A. Unipersonal. Inscrita en el Registro Mercantil de Madrid. Tomo 12.797, Libro 0, Folio 208,
+                 Sección 8ª, Hoja M-205.381, CIF A81948077. Domicilio Social: C/Ribera del Loira, nº60 28042 - Madrid.
+                Endesa Energía, S.A. Unipersonal.
+                CIF A81948077.
+                C/Albareda nº 38 35008 - Las Palmas de Gran Canaria
+                DATOS DE LA FACTURA
+                Nº factura: NMP108N0006054
+                Referencia: 130008765511/0047
+                Fecha emisión factu: 08/06/2021";
+
+            Mock<IPdf>
+                pdfMock1 = new Mock<IPdf>(MockBehavior.Strict),
+                pdfMock2 = new Mock<IPdf>(MockBehavior.Strict),
+                pdfMock3 = new Mock<IPdf>(MockBehavior.Strict);
+
+            pdfMock1.SetupGet(x => x.PagedText).Returns(new string[] { txt });
+            pdfMock1.SetupGet(x => x.FileName).Returns("notDefined1.pdf");
+            pdfMock2.SetupGet(x => x.PagedText).Returns(new string[] { txt });
+            pdfMock2.SetupGet(x => x.FileName).Returns("notDefined2.pdf");
+            pdfMock3.SetupGet(x => x.PagedText).Returns(new string[] { txt });
+            pdfMock3.SetupGet(x => x.FileName).Returns("notDefined3.pdf");
+
+            var expected = new PdfContent[]
+                {
+                    new PdfContent
+                    {
+                        Comercializadora = MarketerName.Undefined,
+                        FileName = "notDefined1.pdf"
+                    },
+                    new PdfContent
+                    {
+                        Comercializadora = MarketerName.Undefined,
+                        FileName = "notDefined2.pdf"
+                    },
+                    new PdfContent
+                    {
+                        Comercializadora = MarketerName.Undefined,
+                        FileName = "notDefined3.pdf"
+                    }
+                };
+
+            var pdfMockColl = new IPdf[] { pdfMock1.Object, pdfMock2.Object, pdfMock3.Object };
+
+            PdfParser pdfParser = new PdfParser();
+
+            // Act
+            var result = pdfParser.Parse(pdfMockColl);
+
+            // Assert
+            result.Should().BeEquivalentTo(expected);
+
+        }
+
+        [Theory]
+        [PdfData(@"../../../Files", true)]
+        public void Parse_ParametroColeccionPdf_RetornaColeccionPdfContent_Correctamente(ArrayList pageContent, PdfContent[] expected)
+        {
+
+            // Arrange
+            Mock<IPdf>
+                pdfMock1 = new Mock<IPdf>(MockBehavior.Strict),
+                pdfMock2 = new Mock<IPdf>(MockBehavior.Strict);
+
+            pdfMock1.SetupGet(x => x.PagedText).Returns((string[])pageContent[0]);
+            pdfMock1.SetupGet(x => x.FileName).Returns("file.pdf");
+            pdfMock2.SetupGet(x => x.PagedText).Returns((string[])pageContent[1]);
+            pdfMock2.SetupGet(x => x.FileName).Returns("file.pdf");
+
+            var pdfParser = new PdfParser();
+
+            var pdfMockColl = new IPdf[] { pdfMock1.Object, pdfMock2.Object };
+
+            // Act
+            var result = pdfParser.Parse(pdfMockColl);
+
+            // Assert
+            result.Should().BeEquivalentTo(expected);
+
         }
 
     }

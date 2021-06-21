@@ -7,6 +7,10 @@ using static BillReader.PdfParser;
 [assembly: InternalsVisibleTo("BillReaderTest")]
 namespace BillReader
 {
+
+    /// <summary>
+    ///     Clase que parsea las facturas de Endesa.
+    /// </summary>
     internal static class EndesaParser
     {
 
@@ -38,13 +42,13 @@ namespace BillReader
                     InicioPeriodoFacturacion = DateTime.Parse(billText.GetStringBetween("Periodo de facturación: del ", " a"), new CultureInfo("es-ES")),
                     FinPeriodoFacturacion = GetFinPeriodoFacturacion(billText),
                     FechaCargo = GetFechaCargo(billText),
-                    PagoTotalPotencia = float.Parse(billText.GetStringBetween("Potencia ", " €").Replace(',', '.'), CultureInfo.InvariantCulture.NumberFormat),
-                    PagoTotalEnergia = float.Parse(billText.GetStringBetween("Energía ", " €").Replace(',', '.'), CultureInfo.InvariantCulture.NumberFormat),
+                    CosteTotalPotencia = float.Parse(billText.GetStringBetween("Potencia ", " €").Replace(',', '.'), CultureInfo.InvariantCulture.NumberFormat),
+                    CosteTotalEnergia = float.Parse(billText.GetStringBetween("Energía ", " €").Replace(',', '.'), CultureInfo.InvariantCulture.NumberFormat),
                     TotalDescuentos = float.Parse(billText.GetStringBetween("Descuentos ", " €").Replace(',', '.'), CultureInfo.InvariantCulture.NumberFormat),
-                    PagoTotalOtros = float.Parse(billText.GetStringBetween("Otros ", " €").Replace(',', '.'), CultureInfo.InvariantCulture.NumberFormat),
-                    PagoTotalImpuestos = float.Parse(billText.GetStringBetween("Impuestos ", " €").Replace(',', '.'), CultureInfo.InvariantCulture.NumberFormat),
-                    PagoTotalServicios = float.Parse(billText.GetStringBetween("Importe Servicios Endesa X ", " €").Replace(',', '.'), CultureInfo.InvariantCulture.NumberFormat),
-                    PagoTotal = float.Parse(billText.GetStringBetween("Total importe a pagar", " €").Replace(',', '.'), CultureInfo.InvariantCulture.NumberFormat),
+                    CosteTotalOtros = float.Parse(billText.GetStringBetween("Otros ", " €").Replace(',', '.'), CultureInfo.InvariantCulture.NumberFormat),
+                    CosteTotalImpuestos = float.Parse(billText.GetStringBetween("Impuestos ", " €").Replace(',', '.'), CultureInfo.InvariantCulture.NumberFormat),
+                    CosteTotalServicios = float.Parse(billText.GetStringBetween("Importe Servicios Endesa X ", " €").Replace(',', '.'), CultureInfo.InvariantCulture.NumberFormat),
+                    CosteTotal = float.Parse(billText.GetStringBetween("Total importe a pagar", " €").Replace(',', '.'), CultureInfo.InvariantCulture.NumberFormat),
                     ConsumoP1 = int.Parse(billText.GetStringBetween("Consumo punta ", " kWh")),
                     ConsumoP2 = int.Parse(billText.GetStringBetween("Consumo valle ", " kWh")),
                     ConsumoP3 = int.Parse(billText.GetStringBetween("Consumo supervalle ",  " kWh"))
