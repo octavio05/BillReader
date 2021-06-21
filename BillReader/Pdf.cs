@@ -14,6 +14,7 @@ namespace BillReader
         ///     Texto del fichero pdf donde cada índice del array corresponde a una página del fichero.
         /// </summary>
         public string[] PagedText { get; private set; }
+        public string FileName { get; private set; }
 
         /// <summary>
         ///     Lee el fichero pdf y obtiene el texto para almacenarlo en la propiedad PagedText.
@@ -29,6 +30,8 @@ namespace BillReader
 
             PdfReader pdfReader = new PdfReader(path);
             PdfDocument pdfDoc = new PdfDocument(pdfReader);
+
+            setFileName(path);
 
             try
             {
@@ -52,6 +55,14 @@ namespace BillReader
                 pdfReader.Close();
 
             }
+
+        }
+
+        private void setFileName(string path)
+        {
+
+            var pathSplit = path.Split('/');
+            FileName = pathSplit[pathSplit.Length - 1];
 
         }
 

@@ -43,6 +43,7 @@ namespace BillReaderTest.Unitary
         [Theory]
         [InlineData(@"../../../Files/testPdfNotExists.pdf")]
         [InlineData("")]
+        [InlineData("NoEsPath")]
         public void Read_RecibePathNoValido_IOException(string path)
         {
 
