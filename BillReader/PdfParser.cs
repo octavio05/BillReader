@@ -9,13 +9,24 @@ namespace BillReader
     /// <summary>
     ///     Parsea un fichero pdf y lo convierte en un objeto PdfContent.
     /// </summary>
-    public class PdfParser
+    public class PdfParser : IPdfParser
     {
 
         /// <summary>
         ///     Nombre de la comercializadora.
         /// </summary>
-        public enum MarketerName { Undefined, Endesa };
+        /// 
+        public enum MarketerName 
+        {
+            /// <summary>
+            ///     Comercializadora no definida.
+            /// </summary>
+            Undefined, 
+            /// <summary>
+            ///     Comercializadora Endesa.
+            /// </summary>
+            Endesa 
+        };
 
         /// <summary>
         ///     Unifica todas las páginas del pdf en una sola cadena de texto quitando los saltos de línea.
@@ -56,7 +67,7 @@ namespace BillReader
         /// <summary>
         ///     Parsea una colección de fichero pdf y lo convierte en una colección PdfContent.
         /// </summary>
-        /// <param name="pdfs">Objeto que implemente la interfaz IPdfInfo.</param>
+        /// <param name="pdfInfo">Objeto que implemente la interfaz IPdfInfo.</param>
         /// <returns>Colección de PdfContent.</returns>
         /// <exception cref="ArgumentNullException">pdfs can't be null.</exception>
         public IEnumerable<PdfContent> Parse(IEnumerable<IPdfInfo> pdfInfo)
