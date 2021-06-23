@@ -15,7 +15,6 @@ namespace BillReader
         /// <summary>
         ///     Nombre de la comercializadora.
         /// </summary>
-        /// 
         public enum MarketerName 
         {
             /// <summary>
