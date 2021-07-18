@@ -1,0 +1,67 @@
+VX10C02P-D-04/07/21 N0015150LNNNN
+ROCIO DEL PINO FALCON QUINTANA
+ALFEREZ QUINTANA SUAREZ 12 3
+35200 SAN GREGORIO
+LAS PALMAS
+Endesa Energía, S.A. Unipersonal. Inscrita en el Registro Mercantil de Madrid. Tomo 12.797, Libro 0, Folio 208,
+ Sección 8ª, Hoja M-205.381, CIF A81948077. Domicilio Social: C/Ribera del Loira, nº60 28042 - Madrid.
+Endesa Energía, S.A. Unipersonal.
+CIF A81948077.
+C/Albareda nº 38 35008 - Las Palmas de Gran Canaria
+DATOS DE LA FACTURA
+Nº factura: NMP101N0085548
+Referencia: 130008765511/0051
+Fecha emisión factura: 02/07/2021
+Periodo de facturación: del 31/05/2021 a 08/06/2021 (8 días)
+Fecha de cargo: 09 de julio de 2021
+....................................................................................................................................................................
+RESUMEN DE LA FACTURA Y DATOS DE PAGO
+Potencia 3,17 €
+Energía 7,09 €
+Descuentos -0,81 €
+Otros 0,23 €
+Impuestos 0,50 €
+...........................................................................................................................................
+Total 10,18 €
+(Detalle de la factura en el reverso)
+Forma de pago: Domiciliación bancaria
+Fecha de cargo: 09 de julio de 2021
+IBAN: ES78146501009217411*****
+Cod.Mandato: E00020930453633200010001
+Versión: 0003
+Su pago se justifica con el correspondiente apunte bancario
+..............................................................
+INFORMACIÓN DEL CONSUMO ELÉCTRICO
+De 31/05/2021 a 08/06/2021 (8 días)
+Consumo punta 12 kWh
+Consumo llano 8 kWh
+Consumo valle 29 kWh
+.........................................................................................................................................
+Consumo total 49 kWh
+..................................................................................
+Evolución del consumo kWh
+280
+240
+200
+160
+120
+80
+40
+0
+ABR
+21
+MAY
+21
+JUN
+21
+ABR
+21
+MAY
+21
+JUN
+21
+Cons.Super valle Real Cons.Valle Real Cons.Punta Real
+Media
+Coste en esta factura 1,27 €/día
+Coste últimos 14 meses 2,90 €/día
+Consumo último año 485 kWh
