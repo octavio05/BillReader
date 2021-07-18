@@ -129,6 +129,33 @@ namespace BillReaderTest.Attributes
                 };
             
             }
+            else if (path.EndsWith("20210702.txt"))
+            {
+
+                return new PdfContent
+                {
+
+                    FileName = "file.pdf",
+                    Comercializadora = MarketerName.Endesa,
+                    FechaEmision = new DateTime(2021, 7, 2),
+                    InicioPeriodoFacturacion = new DateTime(2021, 5, 31),
+                    FinPeriodoFacturacion = new DateTime(2021, 6, 8),
+                    FechaCargo = new DateTime(2021, 7, 9),
+                    CosteTotalPotencia = 3.17f,
+                    CosteTotalEnergia = 7.09f,
+                    TotalDescuentos = -0.81f,
+                    CosteTotalOtros = 0.23f,
+                    CosteTotalImpuestos = 0.50f,
+                    CosteTotalServicios = 0f,
+                    CosteTotal = 10.18f,
+                    ConsumoP1 = 12,
+                    ConsumoP2 = 8,
+                    ConsumoP3 = 29
+
+
+                };
+
+            }
             else
                 throw new InvalidOperationException("No se han creado resultados para esta prueba.");
 
