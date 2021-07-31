@@ -14,6 +14,8 @@ namespace BillReader
     internal static class EndesaParser
     {
 
+        private enum TipoConsumo { Normal, Supervalle };
+
         /// <summary>
         ///     Comprueba, a través de la factura, si corresponde a la comercializadora Endesa.
         /// </summary>
@@ -31,6 +33,8 @@ namespace BillReader
         public static PdfContent Parse(string billText)
         {
 
+            var tConsumo = GetTipoConsumo(billText);
+
             try
             {
 
@@ -38,20 +42,20 @@ namespace BillReader
                 {
 
                     Comercializadora = MarketerName.Endesa,
-                    FechaEmision = DateTime.Parse(billText.GetStringBetween("Fecha emisión factura: ", "Periodo"), new CultureInfo("es-ES")),
-                    InicioPeriodoFacturacion = DateTime.Parse(billText.GetStringBetween("Periodo de facturación: del ", " a"), new CultureInfo("es-ES")),
+                    FechaEmision = billText.GetDateTimeBetween("Fecha emisión factura: ", "Periodo"),
+                    InicioPeriodoFacturacion = billText.GetDateTimeBetween("Periodo de facturación: del ", " a"),
                     FinPeriodoFacturacion = GetFinPeriodoFacturacion(billText),
                     FechaCargo = GetFechaCargo(billText),
-                    CosteTotalPotencia = float.Parse(billText.GetStringBetween("Potencia ", " €").Replace(',', '.'), CultureInfo.InvariantCulture.NumberFormat),
-                    CosteTotalEnergia = float.Parse(billText.GetStringBetween("Energía ", " €").Replace(',', '.'), CultureInfo.InvariantCulture.NumberFormat),
-                    TotalDescuentos = float.Parse(billText.GetStringBetween("Descuentos ", " €").Replace(',', '.'), CultureInfo.InvariantCulture.NumberFormat),
-                    CosteTotalOtros = float.Parse(billText.GetStringBetween("Otros ", " €").Replace(',', '.'), CultureInfo.InvariantCulture.NumberFormat),
-                    CosteTotalImpuestos = float.Parse(billText.GetStringBetween("Impuestos ", " €").Replace(',', '.'), CultureInfo.InvariantCulture.NumberFormat),
-                    CosteTotalServicios = float.Parse(billText.GetStringBetween("Importe Servicios Endesa X ", " €").Replace(',', '.'), CultureInfo.InvariantCulture.NumberFormat),
-                    CosteTotal = float.Parse(billText.GetStringBetween("Total importe a pagar", " €").Replace(',', '.'), CultureInfo.InvariantCulture.NumberFormat),
-                    ConsumoP1 = int.Parse(billText.GetStringBetween("Consumo punta ", " kWh")),
-                    ConsumoP2 = int.Parse(billText.GetStringBetween("Consumo valle ", " kWh")),
-                    ConsumoP3 = int.Parse(billText.GetStringBetween("Consumo supervalle ",  " kWh"))
+                    CosteTotalPotencia = billText.GetFloatBetween("Potencia ", " €"),
+                    CosteTotalEnergia = billText.GetFloatBetween("Energía ", " €"),
+                    TotalDescuentos = billText.GetFloatBetween("Descuentos ", " €"),
+                    CosteTotalOtros = billText.GetFloatBetween("Otros ", " €"),
+                    CosteTotalImpuestos = billText.GetFloatBetween("Impuestos ", " €"),
+                    CosteTotalServicios = billText.GetFloatBetween("Importe Servicios Endesa X ", " €"),
+                    CosteTotal = GetCosteTotal(billText),
+                    ConsumoP1 = billText.GetStringBetween<int>("Consumo punta ", " kWh"),
+                    ConsumoP2 = GetConsumoP2(billText, tConsumo),
+                    ConsumoP3 = GetConsumoP3(billText, tConsumo)
 
                 };
 
@@ -75,9 +79,9 @@ namespace BillReader
         private static DateTime GetFinPeriodoFacturacion(string billText)
         {
 
-            var periodText = billText.GetStringBetween("Periodo de facturación: del ", ")");
+            var periodText = billText.GetStringBetween<string>("Periodo de facturación: del ", ")");
 
-            return DateTime.Parse(periodText.GetStringBetween("a ", " ("), new CultureInfo("es-ES"));
+            return periodText.GetDateTimeBetween("a ", " (");
         
         }
 
@@ -93,7 +97,7 @@ namespace BillReader
         private static DateTime GetFechaCargo(string billText)
         {
 
-            var dateTimeText = billText.GetStringBetween("Fecha de cargo: ", "....").Split(' ');
+            var dateTimeText = billText.GetStringBetween<string>("Fecha de cargo: ", "....").Split(' ');
 
             int
                 day = Convert.ToInt32(dateTimeText[0]),
@@ -104,5 +108,95 @@ namespace BillReader
 
         }
 
+        /// <summary>
+        ///     Obtiene el coste total a partir de la factura.
+        /// </summary>
+        /// <param name="billText">Texto de la factura.</param>
+        /// <returns>Coste total.</returns>
+        private static float GetCosteTotal(string billText)
+        {
+
+            var costeTotal = billText.GetFloatBetween("Total importe a pagar", " €");
+
+            if (costeTotal.Equals(default))
+                costeTotal = billText.GetFloatBetween("Total", " €");
+
+            return costeTotal;
+
+        }
+
+        /// <summary>
+        ///     Obtiene el consumo p2 a partir de la factura.
+        /// </summary>
+        /// <param name="billText">Texto de la factura.</param>
+        /// <param name="tConsumo">Tipo de consumo. (Normal, supervalle...)</param>
+        /// <returns>Consumo P2.</returns>
+        /// <exception cref="FormatException">Formato de tipo de consumo p2 no válido.</exception>
+        private static int GetConsumoP2(string billText, TipoConsumo tConsumo)
+        {
+
+            switch (tConsumo)
+            {
+
+                case TipoConsumo.Normal:
+                    return billText.GetStringBetween<int>("Consumo llano ", " kWh");
+
+                case TipoConsumo.Supervalle:
+                    return billText.GetStringBetween<int>("Consumo valle ", " kWh");
+
+                default:
+                    throw new FormatException("Formato de tipo de consumo p2 no válido.");
+
+            }
+        
+        }
+
+        /// <summary>
+        ///     Obtiene el consumo p3 a partir de la factura.
+        /// </summary>
+        /// <param name="billText">Texto de la factura.</param>
+        /// <param name="tConsumo">Tipo de consumo. (Normal, supervalle...)</param>
+        /// <returns>Consumo P3.</returns>
+        /// <exception cref="FormatException">Formato de tipo de consumo p3 no válido.</exception>
+        private static int GetConsumoP3(string billText, TipoConsumo tConsumo)
+        {
+
+            switch (tConsumo)
+            {
+
+                case TipoConsumo.Normal:
+                    return billText.GetStringBetween<int>("Consumo valle ", " kWh");
+
+                case TipoConsumo.Supervalle:
+                    return billText.GetStringBetween<int>("Consumo supervalle ", " kWh");
+
+                default:
+                    throw new FormatException("Formato de tipo de consumo p3 no válido.");
+
+            }
+        
+        }
+
+        /// <summary>
+        ///     Obtiene el tpo de consumo (Normal, supervalle...).
+        /// </summary>
+        /// <param name="billText">Texto de la factura.</param>
+        /// <returns>Tipo de consumo.</returns>
+        private static TipoConsumo GetTipoConsumo(string billText)
+        {
+
+            if (billText.IndexOf("Consumo supervalle ") != -1 &&
+                int.TryParse(billText.GetStringBetween<string>("Consumo supervalle ", " kWh"), out _))
+            {
+
+                return TipoConsumo.Supervalle;
+
+            }
+
+            return TipoConsumo.Normal;
+        
+        }
+
     }
+
 }

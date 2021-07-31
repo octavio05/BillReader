@@ -302,21 +302,24 @@ namespace BillReaderTest.Unitary
         {
 
             // Arrange
-            Mock<IPdfInfo>
-                pdfMock1 = new Mock<IPdfInfo>(MockBehavior.Strict),
-                pdfMock2 = new Mock<IPdfInfo>(MockBehavior.Strict);
-
-            pdfMock1.SetupGet(x => x.Pages).Returns((string[])pageContent[0]);
-            pdfMock1.SetupGet(x => x.FileName).Returns("file.pdf");
-            pdfMock2.SetupGet(x => x.Pages).Returns((string[])pageContent[1]);
-            pdfMock2.SetupGet(x => x.FileName).Returns("file.pdf");
-
             var pdfParser = new PdfParser();
+            var pdfMockColl = new ArrayList();
+            Mock<IPdfInfo> pdfMock;
 
-            var pdfMockColl = new IPdfInfo[] { pdfMock1.Object, pdfMock2.Object };
+            foreach (var page in pageContent)
+            {
+
+                pdfMock = new Mock<IPdfInfo>(MockBehavior.Strict);
+
+                pdfMock.SetupGet(x => x.Pages).Returns((string[])page);
+                pdfMock.SetupGet(x => x.FileName).Returns("file.pdf");
+
+                pdfMockColl.Add(pdfMock.Object);
+
+            }
 
             // Act
-            var result = pdfParser.Parse(pdfMockColl);
+            var result = pdfParser.Parse((IPdfInfo[])pdfMockColl.ToArray(typeof(IPdfInfo)));
 
             // Assert
             result.Should().BeEquivalentTo(expected);

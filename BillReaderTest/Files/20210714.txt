@@ -6,33 +6,36 @@ C/Albareda nº 38 35008 - Las Palmas de Gran Canaria
 DATOS DE LA FACTURA
 Nº factura: 
 Referencia: 
-Fecha emisión factura: 02/07/2021
-Periodo de facturación: del 31/05/2021 a 08/06/2021 (8 días)
-Fecha de cargo: 09 de julio de 2021
+Fecha emisión factura: 14/07/2021
+Periodo de facturación: del 08/06/2021 a 10/07/2021 (32 días)
+Fecha de cargo: 21 de julio de 2021
 ....................................................................................................................................................................
-RESUMEN DE LA FACTURA Y DATOS DE PAGO
-Potencia 3,17 €
-Energía 7,09 €
-Descuentos -0,81 €
-Otros 0,23 €
-Impuestos 0,50 €
+RESUMEN DE FACTURACION Y DATOS DE PAGO
+Potencia 12,67 €
+Energía 27,73 €
+Descuentos -3,20 €
+Otros 0,92 €
+Impuestos 1,96 €
 ...........................................................................................................................................
-Total 10,18 €
+Total 40,08 €
+Importe Servicios Endesa X 3,60 €
+...........................................................................................................................................
+Total importe a pagar 43,68 €
 (Detalle de la factura en el reverso)
 Forma de pago: 
-Fecha de cargo: 09 de julio de 2021
+Fecha de cargo: 21 de julio de 2021
 IBAN: 
 Cod.Mandato: 
 Versión: 0003
 Su pago se justifica con el correspondiente apunte bancario
-..............................................................
+.............................................................................
 INFORMACIÓN DEL CONSUMO ELÉCTRICO
-De 31/05/2021 a 08/06/2021 (8 días)
-Consumo punta 12 kWh
-Consumo llano 8 kWh
-Consumo valle 29 kWh
+De 08/06/2021 a 10/07/2021 (32 días)
+Consumo punta 46 kWh
+Consumo llano 31 kWh
+Consumo valle 116 kWh
 .........................................................................................................................................
-Consumo total 49 kWh
+Consumo total 193 kWh
 ..................................................................................
 Evolución del consumo kWh
 280
@@ -49,14 +52,18 @@ MAY
 21
 JUN
 21
+JUL
+21
 ABR
 21
 MAY
 21
 JUN
 21
+JUL
+21
 Cons.Super valle Real Cons.Valle Real Cons.Punta Real
 Media
-Coste en esta factura 1,27 €/día
-Coste últimos 14 meses 2,90 €/día
-Consumo último año 485 kWh
+Coste en esta factura 1,37 €/día
+Coste últimos 14 meses 2,41 €/día
+Consumo último año 678 kWh
