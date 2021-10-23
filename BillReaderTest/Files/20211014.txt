@@ -1,0 +1,85 @@
+Endesa Energía, S.A. Unipersonal. Inscrita en el Registro Mercantil de Madrid. Tomo 12.797, Libro 0, Folio 208,
+ Sección 8ª, Hoja M-205.381, CIF A81948077. Domicilio Social: C/Ribera del Loira, nº60 28042 - Madrid.
+Endesa Energía, S.A. Unipersonal.
+CIF A81948077.
+C/Albareda nº 38 35008 - Las Palmas de Gran Canaria
+DATOS DE LA FACTURA
+Nº factura: 
+Referencia:
+Fecha emisión factura: 14/10/2021
+Periodo de facturación: del 08/09/2021 a 08/10/2021 (30 días)
+Fecha de cargo: 21 de octubre de 2021
+....................................................................................................................................................................
+RESUMEN DE FACTURACION Y DATOS DE PAGO
+Potencia 10,28 €
+Energía 20,55 €
+Descuentos -2,47 €
+Otros 0,86 €
+Impuestos 0,23 €
+...........................................................................................................................................
+Total 29,45 €
+Importe Servicios Endesa X 3,60 €
+...........................................................................................................................................
+Total importe a pagar 33,05 €
+(Detalle de la factura en el reverso)
+Forma de pago:
+Fecha de cargo: 21 de octubre de 2021
+IBAN: 
+Cod.Mandato:
+Versión: 0003
+Su pago se justifica con el correspondiente apunte bancario
+.............................................................................
+INFORMACIÓN DEL CONSUMO ELÉCTRICO
+De 08/09/2021 a 08/10/2021 (30 días)
+Consumo punta 40 kWh
+Consumo llano 26 kWh
+Consumo valle 106 kWh
+.........................................................................................................................................
+Consumo total 172 kWh
+En esta factura el consumo
+ha salido a 0,1111 €/kWh
+..................................................................................
+Evolución del consumo kWh
+280
+240
+200
+160
+120
+80
+40
+0
+ABR
+21
+MAY
+21
+JUN
+21
+JUL
+21
+AGO
+21
+SEP
+21
+OCT
+21
+ABR
+21
+MAY
+21
+JUN
+21
+JUL
+21
+AGO
+21
+SEP
+21
+OCT
+21
+Cons.Super valle Real Cons.Valle Real Cons.Punta Real
+Media
+Coste en esta factura 1,10 €/día
+Coste últimos 14 meses 1,88 €/día
+Consumo último año 1.211 kWh
+Las potencias máximas demandadas en el último año han sido 2.3 kW en P1
+(punta) y 3.4 kW en P3 (valle).
