@@ -56,23 +56,10 @@ namespace BillReader
             return new PdfInfo
             { 
                 
-                FileName = getFileName(path),
+                FileName = Path.GetFileName(path),
                 Pages = (string[])pages.ToArray(typeof(string))
 
             };
-
-        }
-
-        /// <summary>
-        ///     Obtiene el nombre del fichero a partir de la ruta.
-        /// </summary>
-        /// <param name="path">Ruta del fichero.</param>
-        /// <returns>Nombre del fichero.</returns>
-        private string getFileName(string path)
-        {
-
-            var pathSplit = path.Split('/');
-            return pathSplit[pathSplit.Length - 1];
 
         }
 
