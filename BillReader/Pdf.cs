@@ -39,16 +39,15 @@ namespace BillReader
         /// <param name="fileStream">Fichero</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException">fileStream no puede ser nulo.</exception>
-        //public IPdfInfo Read(FileStream fileStream)
-        //{
+        public IPdfInfo Read(FileStream fileStream)
+        {
 
-        //    if (fileStream == null)
-        //        throw new ArgumentNullException("can't be null.", "fileStream");
+            if (fileStream == null)
+                throw new ArgumentNullException("can't be null.", "fileStream");
 
-        //    PdfReader pdfReader = new PdfReader(fileStream);
-        //    PdfDocument pdfDoc = new PdfDocument(pdfReader);
+            return CreatePdfInfo(fileStream);
 
-        //}
+        }
 
         /// <summary>
         ///     Crea un objeto que implemente la interfaz IPdfInfo.
@@ -64,13 +63,15 @@ namespace BillReader
             if (fileObject == null)
                 throw new ArgumentNullException("can't be null.", "fileObject");
 
+            // Crea el objeto pdfReader.
             PdfReader pdfReader;
-            string fileName;
+            string path;
 
             if (fileObject is FileStream)
             {
+
                 FileStream fileStream = fileObject as FileStream;
-                fileName = fileStream.Name;
+                path = fileStream.Name;
 
                 pdfReader = new PdfReader(fileStream);
 
@@ -78,8 +79,7 @@ namespace BillReader
             else if (fileObject is string)
             {
 
-                string path = fileObject as string;
-                fileName = Path.GetFileName(path);
+                path = fileObject as string;
 
                 pdfReader = new PdfReader(path);
 
@@ -87,6 +87,7 @@ namespace BillReader
             else
                 throw new InvalidOperationException("fileObject type not valid.");
 
+            // Intenta extraer la información del documento.
             PdfDocument pdfDoc = new PdfDocument(pdfReader);
             ArrayList pages = new ArrayList();
 
@@ -113,7 +114,7 @@ namespace BillReader
             return new PdfInfo
             {
 
-                FileName = fileName,
+                FileName = Path.GetFileName(path),
                 Pages = (string[])pages.ToArray(typeof(string))
 
             };

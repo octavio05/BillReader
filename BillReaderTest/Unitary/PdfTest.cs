@@ -36,37 +36,10 @@ namespace BillReaderTest.Unitary
             var result = _pdf.Read(path);
 
             // Assert
-            result.FileName.Should().NotBeNull();
+            result.FileName.Should().Be("testPdf.pdf");
             result.Pages.Should().NotBeNull();
 
         }
-
-        //[Fact]
-        //public void Read_RecibeFileStream_Correcto()
-        //{
-
-        //    // Arrange
-        //    var path = @"../../../Files/testPdf.pdf";
-        //    var fileStream = new FileStream(path, FileMode.Open);
-
-
-
-        //}
-
-        //[Fact]
-        //public void Read_RecibeStreamNulo_ArgumentNullException()
-        //{
-
-        //    // Arrange
-        //    Stream stream = null;
-
-        //    // Act
-        //    Action action = () => _pdf.Read(stream);
-
-        //    // Assert
-        //    action.Should().Throw<ArgumentNullException>();
-        
-        //}
 
         [Theory]
         [InlineData(@"../../../Files/testPdfNotExists.pdf")]
@@ -94,6 +67,38 @@ namespace BillReaderTest.Unitary
 
             // Act
             Action action = () => _pdf.Read(path);
+
+            // Assert
+            action.Should().Throw<ArgumentNullException>();
+
+        }
+
+        [Fact]
+        public void Read_RecibeFileStream_Correcto()
+        {
+
+            // Arrange
+            var path = @"../../../Files/testPdf.pdf";
+            var fileStream = new FileStream(path, FileMode.Open);
+
+            // Act
+            var result = _pdf.Read(fileStream);
+
+            // Assert
+            result.FileName.Should().Be("testPdf.pdf");
+            result.Pages.Should().NotBeNull();
+
+        }
+
+        [Fact]
+        public void Read_RecibeStreamNulo_ArgumentNullException()
+        {
+
+            // Arrange
+            FileStream stream = null;
+
+            // Act
+            Action action = () => _pdf.Read(stream);
 
             // Assert
             action.Should().Throw<ArgumentNullException>();
