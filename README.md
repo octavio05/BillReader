@@ -26,11 +26,13 @@ Actualmente las comercializadoras disponibles son:
 El uso de esta librería es bastante sencillo. Primero obtendremos un objeto de tipo Pdf que recuperará la información del pdf que queremos parsear. Posteriormente, este pdf se enviará por parámetro a la clase PdfParser, que será la que obtenga la información de la factura.
 
 ```c#
-// Obtiene el texto del pdf y lo leemos.
+// Crea el objeto IPdf.
 string path = @"pdf/file/path.pdf";
 IPdf pdf = new Pdf();
 
-pdf.Read(path);
+// Lee el pdf
+pdf.Read(path); // Se puede leer a partir del path.
+// pdf.Read(new FileStream(path, FileMode.Open)); // O a partir de un objeto FileStream.
 
 // Obtiene información del pdf y la almacena en PdfContent.
 PdfParser parser = new PdfParser(pdf);
