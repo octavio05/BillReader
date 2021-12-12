@@ -41,6 +41,33 @@ namespace BillReaderTest.Unitary
 
         }
 
+        //[Fact]
+        //public void Read_RecibeFileStream_Correcto()
+        //{
+
+        //    // Arrange
+        //    var path = @"../../../Files/testPdf.pdf";
+        //    var fileStream = new FileStream(path, FileMode.Open);
+
+
+
+        //}
+
+        //[Fact]
+        //public void Read_RecibeStreamNulo_ArgumentNullException()
+        //{
+
+        //    // Arrange
+        //    Stream stream = null;
+
+        //    // Act
+        //    Action action = () => _pdf.Read(stream);
+
+        //    // Assert
+        //    action.Should().Throw<ArgumentNullException>();
+        
+        //}
+
         [Theory]
         [InlineData(@"../../../Files/testPdfNotExists.pdf")]
         [InlineData("")]

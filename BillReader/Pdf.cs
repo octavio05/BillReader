@@ -29,7 +29,64 @@ namespace BillReader
             if (path == null)
                 throw new ArgumentNullException("path", "can't be null.");
 
-            PdfReader pdfReader = new PdfReader(path);
+            return CreatePdfInfo(path);
+
+        }
+
+        /// <summary>
+        ///     Lee el fichero pdf y obtiene el texto para almacenarlo en la propiedad PagedText.
+        /// </summary>
+        /// <param name="fileStream">Fichero</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">fileStream no puede ser nulo.</exception>
+        //public IPdfInfo Read(FileStream fileStream)
+        //{
+
+        //    if (fileStream == null)
+        //        throw new ArgumentNullException("can't be null.", "fileStream");
+
+        //    PdfReader pdfReader = new PdfReader(fileStream);
+        //    PdfDocument pdfDoc = new PdfDocument(pdfReader);
+
+        //}
+
+        /// <summary>
+        ///     Crea un objeto que implemente la interfaz IPdfInfo.
+        /// </summary>
+        /// <param name="fileObject">Objeto que representa el fichero. Puede ser un path o un FileStream.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">fileObject can't be null.</exception>
+        /// <exception cref="InvalidOperationException">Tipo fileObject no válido.</exception>
+        /// <exception cref="IOException">Error en la lectura del fichero pdf (ruta incorrecta o vacía).</exception>
+        private IPdfInfo CreatePdfInfo(object fileObject)
+        {
+
+            if (fileObject == null)
+                throw new ArgumentNullException("can't be null.", "fileObject");
+
+            PdfReader pdfReader;
+            string fileName;
+
+            if (fileObject is FileStream)
+            {
+                FileStream fileStream = fileObject as FileStream;
+                fileName = fileStream.Name;
+
+                pdfReader = new PdfReader(fileStream);
+
+            }
+            else if (fileObject is string)
+            {
+
+                string path = fileObject as string;
+                fileName = Path.GetFileName(path);
+
+                pdfReader = new PdfReader(path);
+
+            }
+            else
+                throw new InvalidOperationException("fileObject type not valid.");
+
             PdfDocument pdfDoc = new PdfDocument(pdfReader);
             ArrayList pages = new ArrayList();
 
@@ -54,9 +111,9 @@ namespace BillReader
             }
 
             return new PdfInfo
-            { 
-                
-                FileName = Path.GetFileName(path),
+            {
+
+                FileName = fileName,
                 Pages = (string[])pages.ToArray(typeof(string))
 
             };
