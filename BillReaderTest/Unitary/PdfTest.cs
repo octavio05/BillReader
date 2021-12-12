@@ -91,7 +91,7 @@ namespace BillReaderTest.Unitary
         }
 
         [Fact]
-        public void Read_RecibeStreamNulo_ArgumentNullException()
+        public void Read_RecibeFileStreamNulo_ArgumentNullException()
         {
 
             // Arrange
